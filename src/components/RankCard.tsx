@@ -3,20 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Trophy, TrendingUp, Crosshair } from 'lucide-react'
-
-interface Player {
-  _id: string
-  pubgName: string
-  discordName: string
-  stats: {
-    kills: number
-    deaths: number
-    kd: number
-    averageDamage: number
-    totalMatches: number
-  }
-  score: number
-}
+import type { Player } from '@/types'
 
 interface RankCardProps {
   player: Player

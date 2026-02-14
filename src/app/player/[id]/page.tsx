@@ -8,6 +8,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Trophy, Crosshair, Activity, TrendingUp, RefreshCw } from 'lucide-react'
 import LoadingSkeleton from '@/components/LoadingSkeleton'
 import { useState } from 'react'
+import type { Player, Match } from '@/types'
 
 export default function PlayerDetailPage() {
   const params = useParams()
@@ -15,7 +16,7 @@ export default function PlayerDetailPage() {
   const [showAllMatches, setShowAllMatches] = useState(false)
   const queryClient = useQueryClient()
 
-  const { data: player, isLoading } = useQuery({
+  const { data: player, isLoading } = useQuery<Player>({
     queryKey: ['player', playerId],
     queryFn: () => api.getPlayerDetail(playerId),
   })
@@ -32,13 +33,13 @@ export default function PlayerDetailPage() {
     },
   })
 
-  const { data: matches, isLoading: matchesLoading } = useQuery({
+  const { data: matches, isLoading: matchesLoading } = useQuery<Match[]>({
     queryKey: ['player-matches', playerId],
     queryFn: () => api.getPlayerMatches(playerId),
   })
 
   // 그래프 데이터 준비 (최근 10개를 시간순으로 표시)
-  const chartData = matches?.slice(0, 10).reverse().map((match, index) => ({
+  const chartData = matches?.slice(0, 10).reverse().map((match: Match, index: number) => ({
     name: `게임 ${index + 1}`,
     kills: match.kills,
     damage: match.damage,

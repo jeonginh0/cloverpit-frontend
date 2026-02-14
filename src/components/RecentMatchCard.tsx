@@ -4,17 +4,7 @@ import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { Trophy, Skull, Activity } from 'lucide-react'
-
-interface Match {
-  _id: string
-  playerName: string
-  kills: number
-  damage: number
-  placement: number
-  createdAt: string
-  gameMode?: string
-  matchType?: string
-}
+import type { Match } from '@/types'
 
 interface RecentMatchCardProps {
   match: Match

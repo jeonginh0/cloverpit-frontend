@@ -7,6 +7,7 @@ import { api } from '@/lib/api'
 import { ArrowUpDown } from 'lucide-react'
 import RankCard from '@/components/RankCard'
 import LoadingSkeleton from '@/components/LoadingSkeleton'
+import type { Player } from '@/types'
 
 type SortKey = 'score' | 'kd' | 'averageDamage' | 'totalMatches'
 
@@ -14,7 +15,7 @@ export default function RankingPage() {
   const [sortBy, setSortBy] = useState<SortKey>('score')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
-  const { data: players, isLoading } = useQuery({
+  const { data: players, isLoading } = useQuery<Player[]>({
     queryKey: ['rankings', sortBy, sortOrder],
     queryFn: () => api.getRankings(sortBy, sortOrder),
   })
@@ -98,7 +99,7 @@ export default function RankingPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {players?.map((player, index) => (
+            {players?.map((player: Player, index: number) => (
               <RankCard key={player.id} player={player} rank={index + 1} />
             ))}
           </div>

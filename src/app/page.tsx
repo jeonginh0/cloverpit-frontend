@@ -9,14 +9,15 @@ import RankCard from '@/components/RankCard'
 import StatsCard from '@/components/StatsCard'
 import RecentMatchCard from '@/components/RecentMatchCard'
 import LoadingSkeleton from '@/components/LoadingSkeleton'
+import type { Player, Match, ClanStats } from '@/types'
 
 export default function HomePage() {
-  const { data: stats, isLoading: statsLoading } = useQuery({
+  const { data: stats, isLoading: statsLoading } = useQuery<ClanStats>({
     queryKey: ['clan-stats'],
     queryFn: () => api.getClanStats(),
   })
 
-  const { data: topPlayers, isLoading: rankingLoading } = useQuery({
+  const { data: topPlayers, isLoading: rankingLoading } = useQuery<Player[]>({
     queryKey: ['top-rankings'],
     queryFn: () => api.getRankings('score', 'desc'),
   })
@@ -24,7 +25,7 @@ export default function HomePage() {
   // Top 5만 표시
   const top5Players = topPlayers?.slice(0, 5)
 
-  const { data: recentMatches, isLoading: matchesLoading } = useQuery({
+  const { data: recentMatches, isLoading: matchesLoading } = useQuery<Match[]>({
     queryKey: ['recent-matches'],
     queryFn: () => api.getRecentMatches(3),
   })
@@ -125,7 +126,7 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {top5Players?.map((player, index) => (
+            {top5Players?.map((player: Player, index: number) => (
               <RankCard key={player.id} player={player} rank={index + 1} />
             ))}
           </div>

@@ -28,6 +28,7 @@ export interface PlayerStats {
   normalMatches: number
   normalKd: number
   normalAvgDamage: number
+  normalWins: number
   
   // 모드별
   soloMatches: number

@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
 import { Trash2, UserPlus, RefreshCw, LogOut } from 'lucide-react'
+import type { Player, Application } from '@/types'
 
 export default function AdminPage() {
   const { isAuthenticated, logout } = useAuthStore()
@@ -20,13 +21,13 @@ export default function AdminPage() {
     },
   })
 
-  const { data: applications } = useQuery({
+  const { data: applications } = useQuery<Application[]>({
     queryKey: ['applications'],
     queryFn: () => api.getApplications(),
     enabled: isAuthenticated,
   })
 
-  const { data: players } = useQuery({
+  const { data: players } = useQuery<Player[]>({
     queryKey: ['admin-players'],
     queryFn: () => api.getRankings('score', 'desc'),
     enabled: isAuthenticated,
@@ -190,7 +191,7 @@ export default function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {players?.map((player) => (
+                {players?.map((player: Player) => (
                   <tr key={player.id} className="border-b border-gray-100">
                     <td className="py-3 px-4 font-semibold text-gray-700">{player.pubgName}</td>
                     <td className="py-3 px-4 text-gray-600">{player.discordName}</td>
@@ -218,7 +219,7 @@ export default function AdminPage() {
           <h2 className="text-2xl font-bold mb-4 text-gray-800">가입 신청 목록</h2>
           {applications && applications.length > 0 ? (
             <div className="space-y-4">
-              {applications.map((app: any) => (
+              {applications.map((app: Application) => (
                 <div key={app.id} className="p-4 bg-white/20 rounded-lg">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
