@@ -301,7 +301,8 @@ export default function PlayerDetailPage() {
                           month: '2-digit', 
                           day: '2-digit', 
                           hour: '2-digit', 
-                          minute: '2-digit' 
+                          minute: '2-digit',
+                          hour12: false
                         })}
                       </td>
                       <td className="text-center py-3 px-4">
